@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://866umfqfujly"]
+
+[ext_resource type="Script" uid="uid://d03d1t8erj0tq" path="res://scripts/game.gd" id="1_cpr0p"]
+
+[node name="Game" type="Node2D" unique_id=139474836]
+script = ExtResource("1_cpr0p")
+
+[node name="Timer" type="Timer" parent="." unique_id=1755482265]
+wait_time = 0.05
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

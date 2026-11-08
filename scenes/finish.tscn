@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cone7rb7ivqp2"]
+
+[ext_resource type="Script" uid="uid://0vv50xnciwr5" path="res://scripts/finish.gd" id="1_5nbog"]
+[ext_resource type="Texture2D" uid="uid://bxks6o7j6dwps" path="res://assets/sprites/flag_sprite.png" id="2_07gpw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rh00l"]
+size = Vector2(10, 11)
+
+[node name="finish" type="Node2D" unique_id=733986353]
+z_index = 4
+script = ExtResource("1_5nbog")
+
+[node name="finish_detect" type="Area2D" parent="." unique_id=1202839553]
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="finish_detect" unique_id=1298075544]
+position = Vector2(3, -5.5)
+shape = SubResource("RectangleShape2D_rh00l")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1888317098]
+position = Vector2(1, -8)
+texture = ExtResource("2_07gpw")
+
+[connection signal="body_entered" from="finish_detect" to="." method="_on_finish_detect_body_entered"]

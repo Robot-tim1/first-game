@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://deb61kkf8ug6q"]
+
+[ext_resource type="Script" uid="uid://bnjygsxln58m0" path="res://scripts/purple_slime.gd" id="1_p4tba"]
+[ext_resource type="Texture2D" uid="uid://cip5fjj28nhm5" path="res://assets/sprites/slime_purple.png" id="2_o0hry"]
+[ext_resource type="PackedScene" uid="uid://xkvflrwi6vfs" path="res://scenes/hurtzone.tscn" id="3_p4tba"]
+[ext_resource type="PackedScene" uid="uid://dxy0lernnjj8k" path="res://scenes/health_module.tscn" id="4_o0hry"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4tba"]
+size = Vector2(10, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ke5v3"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dblsr"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ysb11"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3pwnk"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0hry"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(0, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_818gd"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(24, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bf0kl"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(48, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vuyyj"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(72, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p467k"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vw4l"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kw5n6"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4btqv"]
+atlas = ExtResource("2_o0hry")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1vivr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ke5v3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dblsr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ysb11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3pwnk")
+}],
+"loop": 0,
+"name": &"die",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0hry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_818gd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bf0kl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vuyyj")
+}],
+"loop": 0,
+"name": &"hurt",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p467k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vw4l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kw5n6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4btqv")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vivr"]
+size = Vector2(10, 11)
+
+[node name="slime" type="CharacterBody2D" unique_id=1209864519 node_paths=PackedStringArray("hurtbox", "health_module")]
+z_index = 4
+collision_layer = 4
+script = ExtResource("1_p4tba")
+hurtbox = NodePath("hurtzone")
+health_module = NodePath("HealthModule")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=959213762]
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_p4tba")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=100017220]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_1vivr")
+animation = &"die"
+autoplay = "idle"
+
+[node name="hurtzone" parent="." unique_id=945934481 node_paths=PackedStringArray("self_entity", "collision") instance=ExtResource("3_p4tba")]
+self_entity = NodePath("..")
+collision = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtzone" unique_id=1981245411]
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_1vivr")
+
+[node name="RayCastRight" type="RayCast2D" parent="." unique_id=1131939960]
+position = Vector2(-2, -7)
+target_position = Vector2(10, 0)
+
+[node name="RayCastRightDown" type="RayCast2D" parent="." unique_id=605076938]
+position = Vector2(10, -7)
+target_position = Vector2(0, 12)
+
+[node name="RayCastLeft" type="RayCast2D" parent="." unique_id=1269243310]
+position = Vector2(2, -7)
+target_position = Vector2(-10, 0)
+
+[node name="RayCastLeftDown" type="RayCast2D" parent="." unique_id=1908077723]
+position = Vector2(-10, -7)
+target_position = Vector2(0, 12)
+
+[node name="HealthModule" parent="." unique_id=1615650197 instance=ExtResource("4_o0hry")]
+
+[connection signal="death" from="HealthModule" to="." method="_on_health_module_death"]
+[connection signal="hurt" from="HealthModule" to="." method="_on_health_module_hurt"]

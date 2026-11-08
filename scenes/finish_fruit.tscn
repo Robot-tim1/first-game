@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://bx7exj726kppd"]
+
+[ext_resource type="Texture2D" uid="uid://cylkdqg54wqif" path="res://assets/sprites/fruit.png" id="1_1kfpx"]
+[ext_resource type="Script" uid="uid://yauqy1nqk5xo" path="res://scripts/finish_fruit.gd" id="1_cnmy4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vivr"]
+atlas = ExtResource("1_1kfpx")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vivr"]
+size = Vector2(10, 16)
+
+[node name="finish_fruit" type="Node2D" unique_id=1259296906]
+z_index = 4
+script = ExtResource("1_cnmy4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1230903200]
+position = Vector2(0, -8)
+texture = SubResource("AtlasTexture_1vivr")
+
+[node name="finish_detect" type="Area2D" parent="." unique_id=1961026633]
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="finish_detect" unique_id=956780110]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_1vivr")
+
+[node name="Timer" type="Timer" parent="." unique_id=1160794677]
+wait_time = 0.05
+one_shot = true
+
+[connection signal="body_entered" from="finish_detect" to="." method="_on_finish_detect_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
