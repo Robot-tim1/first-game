@@ -5,7 +5,7 @@ extends Node2D
 var player_scene: PackedScene = preload("res://scenes/player.tscn")
 
 # default level number is -1
-var current_level_number: int = 1
+var current_level_number: int = -1
 var current_level_scene: PackedScene
 var current_level: Node
 var player: Player
@@ -34,6 +34,7 @@ func _on_player_setup(cords: Vector2, left: int, right: int) -> void:
 	player = new_player
 	player.camera.position_smoothing_enabled = false
 	player.position = cords
+	
 	if left:
 		player.camera.limit_left = left
 	if right:
@@ -44,23 +45,27 @@ func _on_player_setup(cords: Vector2, left: int, right: int) -> void:
 func _on_timer_timeout() -> void:
 	player.camera.position_smoothing_enabled = true
 
+func _load_level(level_scene: PackedScene) -> void:
+	var loaded_level: Node = level_scene.instantiate()
+
+	loaded_level.player_setup.connect(_on_player_setup)
+	loaded_level.next_level.connect(_on_next_level)
+	loaded_level.reload_level.connect(_on_reload_level)
+
+	add_child.call_deferred(loaded_level)
+	current_level = loaded_level
+
 func _on_reload_level() -> void:
 	Engine.time_scale = 1.0
 	current_level.queue_free()
 
-	var reloaded_level: Node = current_level_scene.instantiate()
-
-	reloaded_level.player_setup.connect(_on_player_setup)
-	reloaded_level.next_level.connect(_on_next_level)
-	reloaded_level.reload_level.connect(_on_reload_level)
-
-	call_deferred("add_child", reloaded_level)
-
-	current_level = reloaded_level
-	current_level.setup()
+	_load_level(current_level_scene)
 
 func _on_next_level() -> void:
 	Engine.time_scale = 1.0
+	if current_level:
+		current_level.queue_free()
+
 	current_level_number += 1
 	if current_level_number >= LEVEL_PATHS.size() - 1:
 		current_level_number = 1
@@ -68,14 +73,4 @@ func _on_next_level() -> void:
 	var level_scene: PackedScene = load(LEVEL_PATHS[current_level_number])
 	current_level_scene = level_scene
 
-	var next_level: Node = level_scene.instantiate()
-	next_level.player_setup.connect(_on_player_setup)
-	next_level.next_level.connect(_on_next_level)
-	next_level.reload_level.connect(_on_reload_level)
-	
-	if current_level:
-		current_level.queue_free()
-
-	call_deferred("add_child", next_level)
-	current_level = next_level
-	current_level.setup()
+	_load_level(level_scene)

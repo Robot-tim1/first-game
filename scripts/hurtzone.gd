@@ -11,6 +11,10 @@ signal player_death
 
 var damage_amount := 0
 
+func _ready() -> void:
+	if self_entity is not Player:
+		add_to_group("hazard")
+
 func set_damage(damage: int) -> void:
 	damage_amount = damage
 

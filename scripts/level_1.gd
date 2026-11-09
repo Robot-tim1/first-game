@@ -11,11 +11,11 @@ signal reload_level
 func _ready() -> void:
 	if has_node("finish"):
 		$finish.finish_level.connect(next_level.emit)
+	_setup()
 
-func setup() -> void:
+func _setup() -> void:
 	player_setup.emit(player_cord, cam_bound_left, cam_bound_right)
-
-	var all_descendants = find_children("*", "", true, true)
-	for child in all_descendants:
-		if child.has_signal("player_death"):
-			child.player_death.connect(reload_level.emit)
+	
+	var hazards = get_tree().get_nodes_in_group("hazard")
+	for hazard in hazards:
+		hazard.player_death.connect(reload_level.emit)
