@@ -28,7 +28,7 @@ var facing: float = 1.0
 func _ready():
 	health_module.set_health(3)
 	hurtbox.set_damage(1)
-	hurtbox.collision.disabled = true
+	hurtbox.collision.set_deferred("disabled", true)
 
 func _on_health_module_hurt() -> void:
 	hurting = true
@@ -46,7 +46,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite.animation == "roll":
 		collision_layer = 2
 		rolling = false
-		hurtbox.collision.disabled = true
+		hurtbox.collision.set_deferred("disabled", true)
 
 func _get_current_move(direction: float) -> String :
 	if not hurting and not dead:
@@ -68,7 +68,7 @@ func _apply_drag(end_speed: float, drag: float) -> void:
 func _handle_jump() -> void:
 	if Input.is_action_pressed("jump") and last_time_on_floor <= 6 and was_on_floor and !dead:
 		collision_layer = 2
-		hurtbox.collision.disabled = true
+		hurtbox.collision.set_deferred("disabled", true)
 		was_on_floor = false
 		last_time_on_floor = 0
 		velocity.y = JUMP_VELOCITY
@@ -80,7 +80,7 @@ func _handle_jump() -> void:
 
 func _handle_roll() -> void:
 	if Input.is_action_just_pressed("roll") and !dead and !hurting and can_roll and !rolling:
-		hurtbox.collision.disabled = false
+		hurtbox.collision.set_deferred("disabled", false)
 		can_roll = false
 		rolling = true
 		collision_layer = 8

@@ -130,8 +130,9 @@ sprite_frames = SubResource("SpriteFrames_1vivr")
 animation = &"hurt"
 autoplay = "idle"
 
-[node name="hurtzone" parent="." unique_id=945934481 node_paths=PackedStringArray("self_entity") instance=ExtResource("3_n6pvg")]
+[node name="hurtzone" parent="." unique_id=945934481 node_paths=PackedStringArray("self_entity", "collision") instance=ExtResource("3_n6pvg")]
 self_entity = NodePath("..")
+collision = NodePath("CollisionShape2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtzone" unique_id=1981245411]
 position = Vector2(0, -6.5)

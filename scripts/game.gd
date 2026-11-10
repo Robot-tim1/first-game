@@ -5,7 +5,7 @@ extends Node2D
 var player_scene: PackedScene = preload("res://scenes/player.tscn")
 
 # default level number is -1
-var current_level_number: int = -1
+var current_level_number: int = 1
 var current_level_scene: PackedScene
 var current_level: Node
 var player: Player
@@ -29,7 +29,7 @@ func _on_player_setup(cords: Vector2, left: int, right: int) -> void:
 		player.queue_free()
 
 	var new_player: Player = player_scene.instantiate()
-	call_deferred("add_child", new_player)
+	add_child.call_deferred(new_player)
 
 	player = new_player
 	player.camera.position_smoothing_enabled = false

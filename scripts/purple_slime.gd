@@ -21,12 +21,14 @@ var is_first_frame: bool = true
 
 func _on_health_module_hurt() -> void:
 	hurting = true
+	hurtbox.collision.set_deferred("disabled", true)
 	animated_sprite.play("hurt")
 	await animated_sprite.animation_finished
 	hurting = false
+	hurtbox.collision.set_deferred("disabled", false)
 
 func _on_health_module_death() -> void:
-	hurtbox.queue_free()
+	hurtbox.collision.set_deferred("disabled", true)
 	dead = true
 	animated_sprite.play("die")
 	await animated_sprite.animation_finished
